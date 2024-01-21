@@ -2,8 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export async function up(knex) {
-  await knex.schema.createTable('tags', (table) => {
+export function up(knex) {
+  return knex.schema.createTable('tags', (table) => {
     table.uuid('id', { useBinaryUuid: false, primaryKey: true })
     table.string('tag').notNullable().unique()
     table.timestamps(true, true, true)
