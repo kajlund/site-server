@@ -46,20 +46,14 @@ app.use((err, req, res, next) => {
     if (err.code) {
       // Faulty UUID format
       if (err.code === '22P02') {
-        error.statusCode = statusCodes.BAD_REQUEST
-        error.message = reasonPhrases.BAD_REQUEST
         error.detail = 'Faulty uuid format'
       }
       // Unique constraint error
       if (err.code === '23505') {
-        error.statusCode = statusCodes.BAD_REQUEST
-        error.message = phrases.BAD_REQUEST
         error.detail = err.detail
       }
       // Faulty column name
       if (err.code === '42703') {
-        error.statusCode = codes.BAD_REQUEST
-        error.message = phrases.BAD_REQUEST
         error.detail = 'Database error: Check field names'
       }
     }
