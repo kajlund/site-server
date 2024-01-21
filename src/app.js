@@ -5,7 +5,9 @@ import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
 
-import notFoundHandler from './middleware/notfound.handler.js'
+import { NotFoundError } from './errors.js'
+import { codes, phrases } from './statuscodes.js'
+import { log } from 'console'
 
 const app = express()
 
@@ -25,6 +27,52 @@ app.get('/ping', (req, res) => {
 })
 
 // 404 Handler
-app.use(notFoundHandler)
+app.use((req, res, next) => {
+  next(new NotFoundError(`Route ${req.originalUrl} was not found`))
+})
+
+// Generic error handler
+app.use((err, req, res, next) => {
+  let error = {
+    success: false,
+    statusCode: codes.BAD_REQUEST,
+    message: phrases.BAD_REQUEST,
+  }
+
+  if (!err.isAppError) {
+    log.error(err)
+
+    // Knex/Postgres DB Errors
+    if (err.code) {
+      // Faulty UUID format
+      if (err.code === '22P02') {
+        error.statusCode = statusCodes.BAD_REQUEST
+        error.message = reasonPhrases.BAD_REQUEST
+        error.detail = 'Faulty uuid format'
+      }
+      // Unique constraint error
+      if (err.code === '23505') {
+        error.statusCode = statusCodes.BAD_REQUEST
+        error.message = phrases.BAD_REQUEST
+        error.detail = err.detail
+      }
+      // Faulty column name
+      if (err.code === '42703') {
+        error.statusCode = codes.BAD_REQUEST
+        error.message = phrases.BAD_REQUEST
+        error.detail = 'Database error: Check field names'
+      }
+    }
+  } else {
+    error = { ...err }
+
+    // list of input field errors?
+    if (err.errors) {
+      error.detail = err.errors
+    }
+  }
+
+  return res.status(error.statusCode).json(error)
+})
 
 export default app
