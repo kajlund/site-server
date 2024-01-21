@@ -7,6 +7,7 @@ dotenv.config()
 
 import { NotFoundError } from './errors.js'
 import { codes, phrases } from './statuscodes.js'
+import db from './db.js'
 import { log } from 'console'
 
 const app = express()
@@ -68,5 +69,8 @@ app.use((err, req, res, next) => {
 
   return res.status(error.statusCode).json(error)
 })
+
+// Connect to DB
+db.connect()
 
 export default app
