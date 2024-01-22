@@ -30,6 +30,12 @@ export class NotFoundError extends AppError {
   }
 }
 
+export class UnprocessableEntityError extends AppError {
+  constructor(detail = '') {
+    super(phrases.NOT_FOUND, codes.NOT_FOUND, detail)
+  }
+}
+
 export class InternalServerError extends AppError {
   constructor(detail = '') {
     super(phrases.INTERNAL_SERVER_ERROR, codes.INTERNAL_SERVER_ERROR, detail)

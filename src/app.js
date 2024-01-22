@@ -5,17 +5,20 @@ import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { NotFoundError } from './errors.js'
-import { codes, phrases } from './statuscodes.js'
 import db from './db.js'
-import { log } from 'console'
+import { NotFoundError } from './errors.js'
+import log from './logger.js'
+import { codes, phrases } from './statuscodes.js'
+import tagRoutes from './api/tags/tag.router.js'
 
 const app = express()
 
 // Middleware to handle incoming JSON payloads
 app.use(express.json())
+
 // Middleware for url encoding
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
+
 // Middleware for handling CORS policy
 app.use(cors())
 
@@ -26,6 +29,9 @@ app.use(express.static(path.join(process.cwd(), 'public')))
 app.get('/ping', (req, res) => {
   res.send('pong')
 })
+
+// API Routes
+app.use('/api/v1/tags', tagRoutes)
 
 // 404 Handler
 app.use((req, res, next) => {
