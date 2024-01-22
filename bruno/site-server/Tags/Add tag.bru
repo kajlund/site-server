@@ -1,0 +1,17 @@
+meta {
+  name: Add tag
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{URL}}/api/v1/tags
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "tag": "API"
+  }
+}

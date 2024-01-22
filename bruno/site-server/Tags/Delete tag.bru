@@ -1,0 +1,17 @@
+meta {
+  name: Delete tag
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{URL}}/api/v1/tags/61c87364-68e5-44cd-987e-8b1f6a695732
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "tag": "APImod"
+  }
+}

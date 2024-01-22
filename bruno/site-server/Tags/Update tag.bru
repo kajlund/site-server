@@ -1,0 +1,17 @@
+meta {
+  name: Update tag
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{URL}}/api/v1/tags/61c87364-68e5-44cd-987e-8b1f6a695732
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "tag": "APImod"
+  }
+}
