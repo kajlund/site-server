@@ -3,7 +3,7 @@ import express from 'express'
 import { codes } from '../../statuscodes.js'
 import { createTag, deleteTag, getTagById, listTags, updateTag } from './tag.service.js'
 import { validateUuidPrm } from '../../middleware/shared.validators.js'
-import { validateInsert, validateUpdate } from './tag.validators.js'
+import { validateTagData } from './tag.validators.js'
 
 const router = express.Router()
 
@@ -25,7 +25,7 @@ router.get('/:id', validateUuidPrm, async (req, res, next) => {
   }
 })
 
-router.post('/', validateInsert, async (req, res, next) => {
+router.post('/', validateTagData, async (req, res, next) => {
   try {
     const result = await createTag(req.locals.data)
     res.status(codes.CREATED).json(result)
@@ -34,7 +34,7 @@ router.post('/', validateInsert, async (req, res, next) => {
   }
 })
 
-router.patch('/:id', validateUuidPrm, validateUpdate, async (req, res, next) => {
+router.patch('/:id', validateUuidPrm, validateTagData, async (req, res, next) => {
   try {
     const result = await updateTag(req.locals.id, req.locals.data)
     res.status(codes.OK).json(result)
