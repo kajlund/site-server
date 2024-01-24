@@ -27,7 +27,7 @@ router.get('/:id', validateUuidPrm, async (req, res, next) => {
 
 router.post('/', validateInsert, async (req, res, next) => {
   try {
-    const result = await createTag(req.body)
+    const result = await createTag(req.locals.data)
     res.status(codes.CREATED).json(result)
   } catch (err) {
     next(err)
@@ -36,7 +36,7 @@ router.post('/', validateInsert, async (req, res, next) => {
 
 router.patch('/:id', validateUuidPrm, validateUpdate, async (req, res, next) => {
   try {
-    const result = await updateTag(req.locals.id, req.body)
+    const result = await updateTag(req.locals.id, req.locals.data)
     res.status(codes.OK).json(result)
   } catch (err) {
     next(err)
