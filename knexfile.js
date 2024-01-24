@@ -14,10 +14,12 @@ export default {
 
   test: {
     client: 'sqlite3',
-    connection: process.env.DB_CONNECTION,
-    pool: {
-      min: 2,
-      max: 10,
+    connection: {
+      filename: './test.sqlite3',
+    },
+    useNullAsDefault: true,
+    seeds: {
+      directory: './seeds',
     },
   },
 
