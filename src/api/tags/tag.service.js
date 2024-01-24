@@ -3,13 +3,11 @@ import { BadRequestError, InternalServerError, NotFoundError } from '../../error
 
 const table = 'tags'
 
-export const listTags = async (qryParams = {}) => {
-  const query = {
-    filter: qryParams.filter ? qryParams.filter.trim() : '',
-    sort: qryParams.sort ? qryParams.sort.trim() : 'tag',
-    limit: qryParams.limit ? parseInt(qryParams.limit.trim()) : 50,
-    skip: qryParams.skip ? parseInt(qryParams.skip.trim()) : 0,
-  }
+export const listTags = async (query) => {
+  // set default sort and limit if not set by query
+  if (query.sort === '') query.sort = 'tag'
+  if (query.limit === 0) query.limit = 50
+  query.filter = query.filter ? (query.filter = { field: 'tag', value: query.filter }) : null
 
   const result = await findMany(table, query)
   return {

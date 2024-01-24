@@ -4,8 +4,15 @@ import db from './db.js'
 
 export const findMany = async (table, query) => {
   const { filter, sort, limit, skip } = query
-  const flt = filter ? filter : {}
-  const result = await db.knex(table).where(flt).orderBy(sort).limit(limit).offset(skip)
+  let result
+
+  if (filter) {
+    const value = filter.value + '%'
+    result = await db.knex(table).whereLike(filter.field, value).orderBy(sort).limit(limit).offset(skip)
+  } else {
+    result = await db.knex(table).orderBy(sort).limit(limit).offset(skip)
+  }
+
   return result
 }
 

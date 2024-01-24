@@ -2,14 +2,14 @@ import express from 'express'
 
 import { codes } from '../../statuscodes.js'
 import { createTag, deleteTag, getTagById, listTags, updateTag } from './tag.service.js'
-import { validateUuidPrm } from '../../middleware/shared.validators.js'
+import { validateQuery, validateUuidPrm } from '../../middleware/shared.validators.js'
 import { validateTagData } from './tag.validators.js'
 
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
+router.get('/', validateQuery, async (req, res, next) => {
   try {
-    const result = await listTags(req.query)
+    const result = await listTags(req.locals.query)
     res.status(codes.OK).json(result)
   } catch (err) {
     next(err)
