@@ -13,29 +13,27 @@
     "db:seed": "knex seed:run",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "japa": "node bin/test.js",
     "test:migrate": "cross-env NODE_ENV=test knex migrate:latest",
     "test:seed": "cross-env NODE_ENV=test knex seed:run",
     "test:server": "cross-env NODE_ENV=test node src/server.js",
-    "test": "run-p test:seed test:server japa"
+    "test": "run-p test:seed test:server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "joi": "^17.12.0",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "pg": "^8.11.3",
     "pino": "^8.17.2",
     "pino-pretty": "^10.3.1"
   },
   "devDependencies": {
-    "@japa/api-client": "^2.0.0-1",
-    "@japa/assert": "^2.0.0-2",
-    "@japa/runner": "^3.0.0-9",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
