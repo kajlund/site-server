@@ -7,12 +7,7 @@ const cnf = {
   level: process.env.LOG_LEVEL || 'info',
 }
 
-// Disable when running tests
-if (process.env.NODE_ENV === 'test') {
-  cnf.enabled = false
-}
-
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   cnf.transport = {
     target: 'pino-pretty',
     options: {
