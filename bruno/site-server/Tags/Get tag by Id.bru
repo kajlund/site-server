@@ -1,11 +1,18 @@
 meta {
   name: Get tag by Id
   type: http
-  seq: 2
+  seq: 5
 }
 
 get {
-  url: {{URL}}/api/v1/tags/61c87364-68e5-44cd-987e-8b1f6a695732
+  url: {{URL}}/api/v1/tags/{{tagId}}
   body: none
   auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.message: eq Found tag audio
+  res.body.data.id: eq {{tagId}}
+  res.body.data.tag: eq audio
 }

@@ -1,17 +1,23 @@
 meta {
   name: Update tag
   type: http
-  seq: 4
+  seq: 7
 }
 
 patch {
-  url: {{URL}}/api/v1/tags/61c87364-68e5-44cd-987e-8b1f6a695732
+  url: {{URL}}/api/v1/tags/{{addedTagId}}
   body: json
   auth: none
 }
 
 body:json {
   {
-    "tag": "APImod"
+    "tag": "testtagupdated"
   }
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.tag: eq testtagupdated
+  res.body.data.id: eq {{addedTagId}}
 }

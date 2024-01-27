@@ -1,7 +1,7 @@
 meta {
   name: Add tag
   type: http
-  seq: 3
+  seq: 6
 }
 
 post {
@@ -12,6 +12,19 @@ post {
 
 body:json {
   {
-    "tag": "API"
+    "tag": "testtag"
   }
+}
+
+vars:post-response {
+  addedTagId: res.body.data.id
+}
+
+assert {
+  res.status: eq 201
+  res.body.message: eq Created tag testtag
+  res.body.data.id: isDefined 
+  res.body.data.tag: eq testtag
+  res.body.data.createdAt: isDefined 
+  res.body.data.updatedAt: isDefined 
 }

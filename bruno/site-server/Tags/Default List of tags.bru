@@ -1,0 +1,50 @@
+meta {
+  name: Default List of tags
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{URL}}/api/v1/tags
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.message: eq Found 50 tags
+  res.body.query.filter: isNull
+  res.body.query.sort: eq tag
+  res.body.query.limit: eq 50
+  res.body.query.skip: eq 0
+}
+
+tests {
+  test("should return 200 statuscode", () => {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Result shoud be an object with proper keys",() => {
+    const body = res.getBody();
+    expect(body).to.be.an('object').that.has.all.keys('success', 'message', 'query', 'data');
+  });
+  
+  test("Result shoud contain a query object with default values",() => {
+    const body = res.getBody();
+    expect(body.query).to.own.include({filter: null, sort: 'tag', limit: 50, skip: 0 });
+  });
+  
+  test("Result data length should ,match query limit",() => {
+    const body = res.getBody();
+    expect(body.data.length).to.equal(body.query.limit);
+  });
+  
+  test("Data objects should have correct keys",() => {
+    const body = res.getBody();
+    expect(body.data[0]).to.be.an('object').that.has.all.keys('id', 'tag', 'createdAt', 'updatedAt');
+  });
+  
+  
+  
+}

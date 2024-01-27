@@ -1,10 +1,10 @@
 meta {
-  name: Delete tag
+  name: Not Found
   type: http
-  seq: 8
+  seq: 9
 }
 
-delete {
+get {
   url: {{URL}}/api/v1/tags/{{addedTagId}}
   body: none
   auth: none
@@ -17,6 +17,5 @@ body:json {
 }
 
 assert {
-  res.status: eq 200
-  res.body.message: eq Deleted tag testtagupdated
+  res.status: eq 404
 }

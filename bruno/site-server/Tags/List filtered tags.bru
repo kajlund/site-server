@@ -1,0 +1,28 @@
+meta {
+  name: List filtered tags
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{URL}}/api/v1/tags?filter=au
+  body: none
+  auth: none
+}
+
+query {
+  filter: au
+}
+
+vars:post-response {
+  tagId: res.body.data[0].id
+}
+
+assert {
+  res.status: eq 200
+  res.body.message: contains Found 2 tags
+  res.body.query.filter: isJson
+  res.body.query.filter.field: eq tag
+  res.body.query.filter.value: eq au
+  res.body.data.length: eq 2
+}
