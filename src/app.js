@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   let error = {
     success: false,
-    statusCode: codes.BAD_REQUEST,
-    message: phrases.BAD_REQUEST,
+    statusCode: codes.INTERNAL_SERVER_ERROR,
+    message: phrases.INTERNAL_SERVER_ERROR,
   }
 
   if (!err.isAppError) {
@@ -55,24 +55,22 @@ app.use((err, req, res, next) => {
     if (err.code) {
       // Faulty UUID format
       if (err.code === '22P02') {
-        error.detail = 'Faulty uuid format'
+        error.message = 'Faulty uuid format'
       }
       // Unique constraint error
       if (err.code === '23505') {
-        error.detail = err.detail
+        error.message = err.detail
       }
       // Faulty column name
       if (err.code === '42703') {
-        error.detail = 'Database error: Check field names'
+        error.message = 'Database error: Check field names'
       }
     }
   } else {
-    error = { ...err }
-
-    // list of input field errors?
-    if (err.errors) {
-      error.detail = err.errors
-    }
+    error.message = err.message
+    error.statusCode = err.statusCode
+    error.detail = err.detail
+    error.errors = err.errors
   }
 
   return res.status(error.statusCode).json(error)
