@@ -1,7 +1,8 @@
 import Joi from 'joi'
 
-import { UnprocessableEntityError } from '../../errors.js'
+import { BadRequestError } from '../../errors.js'
 import locals from '../../utils/locals.js'
+import errorParser from '../../utils/error.parser.js'
 
 const schema = Joi.object().keys({
   tag: Joi.string().min(2).max(25).trim().required(),
@@ -10,8 +11,7 @@ const schema = Joi.object().keys({
 const insertPayload = (req, res, next) => {
   const { error, value } = Joi.compile(schema).validate(req.body)
   if (error) {
-    const errorDetail = error.details.map((details) => details.message).join(', ')
-    const err = new UnprocessableEntityError(errorDetail)
+    const err = new BadRequestError('Faulty input payload', errorParser(error))
     return next(err)
   }
 

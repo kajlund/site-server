@@ -11,26 +11,20 @@ export class AppError extends Error {
   }
 }
 
-export class UnautorizedError extends AppError {
+export class UnauthorizedError extends AppError {
   constructor(detail = '') {
     super(phrases.UNAUTHORIZED, codes.UNAUTHORIZED, detail)
   }
 }
 
 export class BadRequestError extends AppError {
-  constructor(detail = '', errors = {}) {
+  constructor(detail = '', errors = null) {
     super(phrases.BAD_REQUEST, codes.BAD_REQUEST, detail)
     this.errors = errors
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(detail = '') {
-    super(phrases.NOT_FOUND, codes.NOT_FOUND, detail)
-  }
-}
-
-export class UnprocessableEntityError extends AppError {
   constructor(detail = '') {
     super(phrases.NOT_FOUND, codes.NOT_FOUND, detail)
   }
