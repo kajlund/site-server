@@ -1,0 +1,72 @@
+meta {
+  name: Register User
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL}}/api/v1/users/register
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "email": "user@mail.com",
+    "alias": "user",
+    "password": "{{usrPwd}}",
+    "repeat_password": "{{usrPwd}}"
+  }
+}
+
+script:pre-request {
+  const email = 'user@mail.com';
+  const alias = 'User';
+  const password = 'Test1234';
+  
+  req.setBody({
+    email,
+    alias,
+    password,
+    repeat_password: password
+  });
+  
+}
+
+script:post-response {
+  bru.setVar('jwt_token', res.body.token);
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("should return 200 statuscode", () => {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Result shoud be an object with proper keys",() => {
+    expect(body).to.be.an('object').that.has.all.keys('success', 'message', 'token', 'data');
+  });
+  
+  test("Success should be true", () => {
+    expect(body.success).to.equal(true);
+  });
+  
+  test("Token should be there",() => {
+    const token = bru.getVar('jwt_token');
+    expect(body.token).to.be.a('string');
+    expect(body.token).to.equal(token);
+  });
+  
+  test("Message should be correct",() => {
+    expect(body.message).to.equal("Registered user User");
+  });
+  
+  test("Data object should have correct keys",() => {
+    const data = body.data;
+    expect(data).to.be.an('object').that.has.all.keys('id', 'email', 'alias', 'role', 'createdAt', 'updatedAt');
+  });
+  
+  
+  
+}
