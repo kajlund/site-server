@@ -34,14 +34,14 @@ export const setAuthCookie = (res, token) => {
   })
 }
 
-export const verifyToken = (token) => {
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      log.error(err)
-      throw new UnauthorizedError()
-    }
+export const verifyToken = async (token) => {
+  try {
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET)
     return decoded
-  })
+  } catch (err) {
+    log.error(err)
+    throw new UnauthorizedError()
+  }
 }
 
 export default {

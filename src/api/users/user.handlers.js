@@ -6,7 +6,6 @@ import svcUser from './user.service.js'
 export const login = async (req, res, next) => {
   try {
     const { token, user } = await svcUser.loginUser(res.locals.data)
-
     setAuthCookie(res, token)
     res.status(codes.OK).json({
       success: true,
@@ -21,7 +20,6 @@ export const login = async (req, res, next) => {
 export const register = async (req, res, next) => {
   try {
     const { token, user } = await svcUser.registerUser(res.locals.data)
-
     setAuthCookie(res, token)
     res.status(codes.OK).json({
       success: true,
@@ -35,4 +33,5 @@ export const register = async (req, res, next) => {
 
 export default {
   login,
+  register,
 }

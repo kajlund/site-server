@@ -29,6 +29,11 @@ export const loginUser = async (data) => {
     throw new UnauthorizedError()
   }
 
+  const pwdOK = await auth.comparePasswords(data.password, found.password)
+  if (!pwdOK) {
+    throw new UnauthorizedError()
+  }
+
   // Generate JWT
   const token = auth.generateToken(found)
   if (!token) throw new UnauthorizedError()

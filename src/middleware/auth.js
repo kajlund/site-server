@@ -15,7 +15,7 @@ export const auth = async (req, res, next) => {
   }
 
   try {
-    const decoded = authUtil.verifyToken(token)
+    const decoded = await authUtil.verifyToken(token)
     req.user = await svcUser.findUserById(decoded.id)
     if (!req.user) return next(new UnauthorizedError())
     next()
