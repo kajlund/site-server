@@ -8,6 +8,7 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
+    "bruno": "cd ./bruno/site-server && bru run",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback --all",
     "db:seed": "knex seed:run",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.6",
+    "@usebruno/cli": "^1.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
