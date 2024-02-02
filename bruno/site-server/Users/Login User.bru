@@ -1,11 +1,11 @@
 meta {
-  name: Register User
+  name: Login User
   type: http
-  seq: 1
+  seq: 8
 }
 
 post {
-  url: {{URL}}/api/v1/users/register
+  url: {{URL}}/api/v1/users/login
   body: none
   auth: none
 }
@@ -20,21 +20,11 @@ body:json {
 }
 
 script:pre-request {
-  const email = 'user@mail.com';
-  const alias = 'User';
-  const password = 'Test1234';
-  
   req.setBody({
-    email,
-    alias,
-    password,
-    repeat_password: password
+    email: 'kaj.lund@gmail.com',
+    password: bru.getEnvVar('adminPwd')
   });
   
-}
-
-script:post-response {
-  bru.setVar('jwt_token', res.body.token);
 }
 
 tests {
@@ -53,7 +43,7 @@ tests {
   });
   
   test("Message should be correct",() => {
-    expect(body.message).to.equal("Registered user User");
+    expect(body.message).to.equal("Logged on user luka");
   });
   
   test("Data object should have correct keys",() => {
