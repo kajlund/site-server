@@ -1,4 +1,5 @@
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import express from 'express'
 import path from 'path'
 
@@ -13,6 +14,9 @@ import tagRoutes from './api/tags/tag.router.js'
 import userRoutes from './api/users/user.router.js'
 
 const app = express()
+
+// Middleware to parse cookies
+app.use(cookieParser(process.env.JWT_SECRET))
 
 // Middleware to handle incoming JSON payloads
 app.use(express.json())
