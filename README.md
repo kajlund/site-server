@@ -17,5 +17,6 @@ API testing is done using [Bruno](https://docs.usebruno.com/). Bruno is an open 
 
 - [Knex Guide](https://knexjs.org/guide/)
 - [Knex cheatsheet](https://devhints.io/knex)
--
+- [Chai.js cheatsheet](https://devhints.io/chai)
+- [Quotes](https://www.azquotes.com/author/22039-Joel_Spolsky)
 
