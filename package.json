@@ -8,7 +8,7 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "bruno": "cd ./bruno/site-server && bru run",
+    "bruno": "cd ./bruno/site-server && bru run --env Development",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback --all",
     "db:seed": "knex seed:run",
@@ -17,7 +17,7 @@
     "test:migrate": "cross-env NODE_ENV=test knex migrate:latest",
     "test:seed": "cross-env NODE_ENV=test knex seed:run",
     "test:server": "cross-env NODE_ENV=test node src/server.js",
-    "test": "run-p test:migrate test:seed test:server"
+    "test": "run-p test:migrate test:seed test:server bruno"
   },
   "keywords": [],
   "author": "",
