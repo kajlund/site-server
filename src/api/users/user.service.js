@@ -16,7 +16,32 @@ const mapToUserEntity = (u) => {
   }
 }
 
-const registerUser = async (data) => {
+export const findUserById = async (id) => {
+  const user = await dao.findOne(table, { id })
+  if (user) return mapToUserEntity(user)
+  return null
+}
+
+export const loginUser = async (data) => {
+  // ensure user is registered
+  const found = await dao.findOne(table, { email: data.email })
+  if (!found) {
+    throw new UnauthorizedError()
+  }
+
+  // Generate JWT
+  const token = auth.generateToken(found)
+  if (!token) throw new UnauthorizedError()
+
+  // Update lastLogin for user
+  const updated = await dao.updateOne(table, found.id, {
+    lastLoginAt: new Date().toISOString(),
+  })
+
+  return { token, user: mapToUserEntity(updated) }
+}
+
+export const registerUser = async (data) => {
   // Ensure it does not already exist
   const found = await dao.findOne(table, { email: data.email })
   if (found) {
@@ -34,18 +59,15 @@ const registerUser = async (data) => {
   if (!token) throw new UnauthorizedError()
 
   // Update lastLogin for user
-  await dao.updateOne(table, result.id, {
+  const updated = await dao.updateOne(table, result.id, {
     lastLoginAt: new Date().toISOString(),
   })
 
-  return {
-    success: true,
-    message: `Registered user ${result.alias}`,
-    token,
-    data: mapToUserEntity(result),
-  }
+  return { token, user: mapToUserEntity(updated) }
 }
 
 export default {
+  findUserById,
+  loginUser,
   registerUser,
 }

@@ -1,7 +1,6 @@
 import Joi from 'joi'
 
 import { BadRequestError } from '../errors.js'
-import locals from '../utils/locals.js'
 import errorParser from '../utils/error.parser.js'
 
 const requiredUUIDv4Schema = Joi.object().keys({
@@ -19,18 +18,18 @@ const querySchema = Joi.object().keys({
   skip: Joi.number().default(0),
 })
 
-const qryFilter = (req, res, next) => {
+export const validateFilterQuery = (req, res, next) => {
   const { error, value } = Joi.compile(querySchema).validate(req.query)
   if (error) {
     const err = new BadRequestError('Filter error', errorParser(error))
     return next(err)
   }
 
-  locals.setQuery(req, value)
+  res.locals.query = value
   return next()
 }
 
-const prmUUID = (req, res, next) => {
+export const validateUUIDParam = (req, res, next) => {
   const { error, value } = Joi.compile(requiredUUIDv4Schema).validate(req.params)
 
   if (error) {
@@ -38,11 +37,11 @@ const prmUUID = (req, res, next) => {
     return next(err)
   }
 
-  locals.setId(req, value.id)
+  res.locals.id = value.id
   return next()
 }
 
 export default {
-  qryFilter,
-  prmUUID,
+  qryFilter: validateFilterQuery,
+  prmUUID: validateUUIDParam,
 }

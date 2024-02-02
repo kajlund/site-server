@@ -1,10 +1,9 @@
 import Joi from 'joi'
 
-import { BadRequestError } from '../../errors.js'
-import locals from '../../utils/locals.js'
+import { BadRequestError, UnauthorizedError } from '../../errors.js'
 import errorParser from '../../utils/error.parser.js'
 
-const insertPayload = (req, res, next) => {
+export const validateRegisterPayload = (req, res, next) => {
   const schema = Joi.object()
     .keys({
       email: Joi.string().email().trim().required(),
@@ -21,10 +20,27 @@ const insertPayload = (req, res, next) => {
   }
 
   delete value.repeat_password
-  locals.setData(req, value)
+  res.locals.data = value
+  return next()
+}
+
+export const validateLoginPayload = (req, res, next) => {
+  const schema = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  })
+
+  const { error, value } = Joi.compile(schema).validate(req.body, { abortEarly: false })
+  if (error) {
+    const err = new UnauthorizedError()
+    return next(err)
+  }
+
+  res.locals.data = value
   return next()
 }
 
 export default {
-  insertPayload,
+  loginPayload: validateLoginPayload,
+  registerPayload: validateRegisterPayload,
 }
