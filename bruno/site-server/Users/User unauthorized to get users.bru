@@ -1,0 +1,18 @@
+meta {
+  name: User unauthorized to get users
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/users
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 401
+  res('success'): eq false
+  res('message'): eq Unauthorized
+  res('detail'): 
+}

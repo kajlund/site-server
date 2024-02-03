@@ -17,6 +17,20 @@ export const login = async (req, res, next) => {
   }
 }
 
+export const queryUsers = async (req, res, next) => {
+  try {
+    const users = await svcUser.queryUsers(res.locals.query)
+    res.status(codes.OK).json({
+      success: true,
+      message: `Found ${users.length} users`,
+      query: res.locals.query,
+      data: users,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 export const register = async (req, res, next) => {
   try {
     const { token, user } = await svcUser.registerUser(res.locals.data)
@@ -33,5 +47,6 @@ export const register = async (req, res, next) => {
 
 export default {
   login,
+  queryUsers,
   register,
 }

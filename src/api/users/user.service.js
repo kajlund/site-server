@@ -25,7 +25,7 @@ export const findUserById = async (id) => {
 export const loginUser = async (data) => {
   // ensure user is registered
   const found = await dao.findOne(table, { email: data.email })
-  if (!found) {
+  if (!found || found.archivedAt) {
     throw new UnauthorizedError()
   }
 
@@ -44,6 +44,17 @@ export const loginUser = async (data) => {
   })
 
   return { token, user: mapToUserEntity(updated) }
+}
+
+export const queryUsers = async (query) => {
+  // Set default query, sort and limit if not set by query params
+  if (query.sort === '') query.sort = 'alias'
+  if (query.limit === 0) query.limit = 50
+  query.filter = query.filter ? (query.filter = { field: 'alias', value: query.filter }) : null
+
+  const result = await dao.findMany(table, query)
+  const users = result.map((usr) => mapToUserEntity(usr))
+  return users
 }
 
 export const registerUser = async (data) => {
@@ -74,5 +85,6 @@ export const registerUser = async (data) => {
 export default {
   findUserById,
   loginUser,
+  queryUsers,
   registerUser,
 }

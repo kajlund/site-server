@@ -1,0 +1,56 @@
+meta {
+  name: Login Admin
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/users/login
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "email": "user@mail.com",
+    "alias": "user",
+    "password": "{{usrPwd}}",
+    "repeat_password": "{{usrPwd}}"
+  }
+}
+
+script:pre-request {
+  req.setBody({
+    email: 'kaj.lund@gmail.com',
+    password: bru.getEnvVar('adminPwd')
+  });
+  
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("should return 200 statuscode", () => {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Result shoud be an object with proper keys",() => {
+    expect(body).to.be.an('object').that.has.all.keys('success', 'message', 'data');
+  });
+  
+  test("Success should be true", () => {
+    expect(body.success).to.equal(true);
+  });
+  
+  test("Message should be correct",() => {
+    expect(body.message).to.equal("Logged on user luka");
+  });
+  
+  test("Data object should have correct keys",() => {
+    const data = body.data;
+    expect(data).to.be.an('object').that.has.all.keys('id', 'email', 'alias', 'role', 'createdAt', 'updatedAt');
+  });
+  
+  
+  
+}
