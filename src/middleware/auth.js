@@ -9,14 +9,15 @@ export const admin = (req, res, next) => {
 }
 
 export const auth = async (req, res, next) => {
-  const token = req.signedCookies.token
-  if (!token) {
-    throw new UnauthorizedError()
-  }
-
   try {
+    const token = req.signedCookies.token
+    if (!token) {
+      throw new UnauthorizedError()
+    }
+
     const decoded = await authUtil.verifyToken(token)
-    req.user = await svcUser.findUserById(decoded.id)
+    if (!decoded) return next(new UnauthorizedError())
+    req.user = await svcUser.findById(decoded.id)
     if (!req.user) return next(new UnauthorizedError())
     next()
   } catch (err) {
