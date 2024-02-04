@@ -16,7 +16,7 @@ const mapToUserEntity = (u) => {
   }
 }
 
-export const findUserById = async (id) => {
+export const findById = async (id) => {
   const user = await dao.findOne(table, { id })
   if (user) return mapToUserEntity(user)
   return null
@@ -83,7 +83,7 @@ export const registerUser = async (data) => {
 }
 
 export default {
-  findUserById,
+  findById,
   loginUser,
   queryUsers,
   registerUser,
