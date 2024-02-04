@@ -1,0 +1,28 @@
+meta {
+  name: Get user (admin)
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/users/{{firstUserId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): eq Found user Prospect
+  res('data.id'): isString
+  res('data.email'): eq prospect@mail.com
+  res('data.alias'): eq Prospect
+  res('data.role'): eq prospect
+  res('..createdAt'): isDefined
+  res('..updatedAt'): isDefined
+}
+
+script:post-response {
+  
+  
+}

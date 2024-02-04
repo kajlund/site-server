@@ -1,7 +1,7 @@
 meta {
   name: User unauthorized to get users
   type: http
-  seq: 13
+  seq: 15
 }
 
 get {
@@ -14,5 +14,5 @@ assert {
   res.status: eq 401
   res('success'): eq false
   res('message'): eq Unauthorized
-  res('detail'): 
+  res('detail'): isEmpty 
 }

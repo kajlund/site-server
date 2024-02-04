@@ -1,7 +1,7 @@
 meta {
   name: Login User
   type: http
-  seq: 12
+  seq: 14
 }
 
 post {
@@ -24,7 +24,7 @@ assert {
   res('data.email'): eq user@mail.com
   res('data.alias'): eq User
   res('data.role'): eq user
-  res('data.id'): isDefined
+  res('data.id'): isString 
   res('data.createdAt'): isDefined
   res('data.updatedAt'): isDefined
 }

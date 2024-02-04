@@ -22,7 +22,7 @@ assert {
 
 script:post-response {
   
-  
+  bru.setVar('firstUserId', res.getBody().data[0].id);
 }
 
 tests {

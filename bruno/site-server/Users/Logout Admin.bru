@@ -1,0 +1,22 @@
+meta {
+  name: Logout Admin
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/users/logout
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res('message'): eq Logged out user luka
+  res('data.id'): isString 
+  res('data.email'): eq kaj.lund@gmail.com
+  res('data.alias'): eq luka
+  res('data.role'): eq admin
+  res('data.createdAt'): isDefined 
+  res('data.updatedAt'): isDefined 
+}
