@@ -7,6 +7,15 @@ import { UnauthorizedError } from '../errors.js'
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS, 10)
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7
 
+export const clearAuthCookie = (res) => {
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000),
+    secure: process.env.NODE_ENV === 'production',
+    signed: true,
+  })
+}
+
 export const comparePasswords = async (pwd1, pwd2) => {
   const result = await bcrypt.compare(pwd1, pwd2)
   return result

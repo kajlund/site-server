@@ -1,7 +1,20 @@
 import { codes } from '../../statuscodes.js'
-import { setAuthCookie } from '../../utils/auth.js'
+import { clearAuthCookie, setAuthCookie } from '../../utils/auth.js'
 
 import svcUser from './user.service.js'
+
+export const findUserByID = async (req, res, next) => {
+  try {
+    const user = await svcUser.findById(res.locals.id)
+    res.status(codes.OK).json({
+      success: true,
+      message: `Found user ${user.alias}`,
+      data: user,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
 
 export const login = async (req, res, next) => {
   try {
@@ -10,6 +23,22 @@ export const login = async (req, res, next) => {
     res.status(codes.OK).json({
       success: true,
       message: `Logged on user ${user.alias}`,
+      data: user,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const logout = async (req, res, next) => {
+  try {
+    const user = req.user
+    // Just trash the cookie for now,
+    // Implement proper blacklisting later
+    clearAuthCookie(res)
+    res.status(codes.OK).json({
+      success: true,
+      message: `Logged out user ${user.alias}`,
       data: user,
     })
   } catch (err) {
@@ -47,6 +76,7 @@ export const register = async (req, res, next) => {
 
 export default {
   login,
+  logout,
   queryUsers,
   register,
 }
