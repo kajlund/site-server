@@ -8,6 +8,7 @@ export async function seed(knex) {
   // Deletes ALL existing entries
   await knex('tags').del()
   await knex('tags').insert([
+    { id: crypto.randomUUID(), tag: 'wiki' }, // scrambe order to test sort
     { id: crypto.randomUUID(), tag: 'analytics' },
     { id: crypto.randomUUID(), tag: 'animation' },
     { id: crypto.randomUUID(), tag: 'api' },
@@ -117,6 +118,5 @@ export async function seed(knex) {
     { id: crypto.randomUUID(), tag: 'ux' },
     { id: crypto.randomUUID(), tag: 'webcomponents' },
     { id: crypto.randomUUID(), tag: 'widgets' },
-    { id: crypto.randomUUID(), tag: 'wiki' },
   ])
 }
