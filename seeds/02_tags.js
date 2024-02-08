@@ -44,7 +44,7 @@ export async function seed(knex) {
     { id: crypto.randomUUID(), tag: 'express' },
     { id: crypto.randomUUID(), tag: 'flexbox' },
     { id: crypto.randomUUID(), tag: 'fonts' },
-    { id: crypto.randomUUID(), tag: 'Framework' },
+    { id: crypto.randomUUID(), tag: 'framework' },
     { id: crypto.randomUUID(), tag: 'files' },
     { id: crypto.randomUUID(), tag: 'generic' },
     { id: crypto.randomUUID(), tag: 'gis' },
