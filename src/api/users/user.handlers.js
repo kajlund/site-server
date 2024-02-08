@@ -46,6 +46,19 @@ export const logout = async (req, res, next) => {
   }
 }
 
+export const profile = async (req, res, next) => {
+  try {
+    const user = await svcUser.findById(req.user.id)
+    res.status(codes.OK).json({
+      success: true,
+      message: `Found profile for ${user.alias}`,
+      data: user,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 export const queryUsers = async (req, res, next) => {
   try {
     const users = await svcUser.queryUsers(res.locals.query)
