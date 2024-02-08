@@ -1,0 +1,26 @@
+meta {
+  name: Login Faulty email
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/users/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "usr@gmail.com",
+    "password": "pass1234"
+  }
+}
+
+assert {
+  res.status: eq 401
+  res.body.success: eq false
+  res.body.statusCode: eq 401
+  res.body.message: eq Unauthorized
+  res.body.detail: 
+}

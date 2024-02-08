@@ -27,10 +27,10 @@ assert {
   res('data.email'): eq testuser@mail.com
   res('data.alias'): eq Test
   res('data.role'): eq prospect
-  res('data.createdAt'): isString 
-  res('data.updatedAt'): isString 
+  res('data.createdAt'): isString
+  res('data.updatedAt'): isString
 }
 
 script:post-response {
-  bru.setVar('jwt_token', res.body.token);
+  bru.setVar('userId', res.getBody().data.id);
 }

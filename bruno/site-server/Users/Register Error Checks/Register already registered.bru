@@ -1,7 +1,7 @@
 meta {
-  name: Register User - already registered
+  name: Register already registered
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
@@ -12,8 +12,8 @@ post {
 
 body:json {
   {
-    "email": "testuser@mail.com",
-    "alias": "Test",
+    "email": "admin@mail.com",
+    "alias": "Admin",
     "password": "pass1234",
     "repeat_password": "pass1234"
   }
@@ -21,11 +21,10 @@ body:json {
 
 assert {
   res.status: eq 400
-  res('success'): isFalsy
+  res('success'): eq false
   res('statusCode'): eq 400
   res('message'): eq Bad Request
-  res('detail'): eq Email testuser@mail.com already registered
-  res.errors: isUndefined null
+  res('detail'): eq Email admin@mail.com already registered
 }
 
 script:pre-request {

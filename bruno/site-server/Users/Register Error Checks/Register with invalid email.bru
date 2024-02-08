@@ -1,0 +1,38 @@
+meta {
+  name: Register with invalid email
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/users/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "user2@mail",
+    "alias": "Usr2",
+    "password": "pass1234",
+    "repeat_password": "pass1234"
+  }
+  
+}
+
+assert {
+  res.status: eq 400
+  res('success'): eq false
+  res('statusCode'): eq 400
+  res('message'): eq Bad Request
+  res('detail'): eq Faulty input payload
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("errors should be an array",() => {
+    expect(body.errors).to.be.instanceOf(Array);
+  });
+  
+}

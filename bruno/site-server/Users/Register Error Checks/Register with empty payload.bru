@@ -1,0 +1,41 @@
+meta {
+  name: Register with empty payload
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/users/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "",
+    "alias": "",
+    "password": "",
+    "repeat_password": ""
+  }
+}
+
+assert {
+  res.status: eq 400
+  res('success'): eq false
+  res('statusCode'): eq 400
+  res('message'): eq Bad Request
+  res('detail'): eq Faulty input payload
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("errors should be an array",() => {
+    expect(body.errors).to.be.instanceOf(Array);
+  });
+  
+  
+  
+  
+  
+}

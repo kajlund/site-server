@@ -1,0 +1,49 @@
+meta {
+  name: Get users list
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/users
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): startsWith Found
+  res('query.filter'): isNull
+  res('query.sort'): eq alias
+  res('query.limit'): eq 50
+  res('query.skip'): eq 0
+}
+
+script:post-response {
+  
+  
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Result shoud be an object with proper keys",() => {
+    expect(body).to.be.an('object').that.has.all.keys('success', 'message', 'query', 'data');
+  });
+  
+  test("Result shoud contain a query object with default values",() => {
+    expect(body.query).to.own.include({filter: null, sort: 'tag', limit: 50, skip: 0 });
+  });
+  
+  test("Result data length should ,match query limit",() => {
+    expect(body.data.length).to.equal(body.query.limit);
+  });
+  
+  test("Data objects should have correct keys",() => {
+    expect(body.data[0]).to.be.an('object').that.has.all.keys('id', 'tag', 'createdAt', 'updatedAt');
+  });
+  
+  
+  
+}
