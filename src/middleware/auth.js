@@ -12,7 +12,7 @@ export const auth = async (req, res, next) => {
   try {
     const token = req.signedCookies.token
     if (!token) {
-      throw new UnauthorizedError()
+      return next(new UnauthorizedError())
     }
 
     const decoded = await authUtil.verifyToken(token)
