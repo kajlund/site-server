@@ -10,29 +10,31 @@ export async function seed(knex) {
   await knex('users').del()
   const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS, 10)
   const salt = await bcrypt.genSalt(SALT_ROUNDS)
-  const password = await bcrypt.hash(process.env.ADMIN_SEED_PWD, salt)
-  const userPwd = await bcrypt.hash('pass1234', salt)
-  await knex('users').insert([
-    {
-      id: crypto.randomUUID(),
-      email: 'kaj.lund@gmail.com',
-      alias: 'luka',
-      password,
-      role: 'admin',
-    },
-    {
-      id: crypto.randomUUID(),
-      email: 'prospect@mail.com',
-      alias: 'Prospect',
-      password: userPwd,
-      role: 'prospect',
-    },
-    {
-      id: crypto.randomUUID(),
-      email: 'user@mail.com',
-      alias: 'User',
-      password: userPwd,
-      role: 'user',
-    },
-  ])
+  const password = await bcrypt.hash('pass1234', salt)
+
+  if (process.env.NODE_ENV !== 'production') {
+    await knex('users').insert([
+      {
+        id: crypto.randomUUID(),
+        email: 'admin@mail.com',
+        alias: 'Admin',
+        password,
+        role: 'admin',
+      },
+      {
+        id: crypto.randomUUID(),
+        email: 'prospect@mail.com',
+        alias: 'Prospect',
+        password,
+        role: 'prospect',
+      },
+      {
+        id: crypto.randomUUID(),
+        email: 'user@mail.com',
+        alias: 'User',
+        password,
+        role: 'user',
+      },
+    ])
+  }
 }
