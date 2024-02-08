@@ -1,7 +1,7 @@
 meta {
   name: List using limit and skip
   type: http
-  seq: 4
+  seq: 3
 }
 
 get {
@@ -16,8 +16,10 @@ query {
 }
 
 assert {
+  res.status: eq 200
+  res('success'): eq true
   res.body.data.length: eq 10
-  res.body.query.limit: eq 10
-  res.body.query.skip: eq 3
-  res.body.data[0].tag: eq api
+  res('query.limit'): eq 10
+  res('query.skip'): eq 3
+  res.body.data[0].tag: eq audio
 }

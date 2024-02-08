@@ -1,11 +1,11 @@
 meta {
   name: Delete tag
   type: http
-  seq: 8
+  seq: 7
 }
 
 delete {
-  url: {{BASE_URL}}/api/v1/tags/{{addedTagId}}
+  url: {{BASE_URL}}/api/v1/tags/{{tagId}}
   body: none
   auth: none
 }
@@ -18,5 +18,6 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.message: eq Deleted tag testtagupdated
+  res('success'): eq true
+  res('message'): eq Deleted tag testtagupdated
 }

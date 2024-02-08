@@ -1,0 +1,18 @@
+meta {
+  name: _login_user_
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/users/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "user@mail.com",
+    "password": "pass1234"
+  }
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Read tag by Id
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/tags/{{tagId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.message: startsWith Found tag
+  res('data.id'): eq {{tagId}}
+  res('data.tag'): eq testtag
+  res('data.createdAt'): isDefined
+  res('data.updatedAt'): isDefined
+}
