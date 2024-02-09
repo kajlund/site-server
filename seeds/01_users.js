@@ -23,13 +23,6 @@ export async function seed(knex) {
       },
       {
         id: crypto.randomUUID(),
-        email: 'prospect@mail.com',
-        alias: 'Prospect',
-        password,
-        role: 'prospect',
-      },
-      {
-        id: crypto.randomUUID(),
         email: 'user@mail.com',
         alias: 'User',
         password,
