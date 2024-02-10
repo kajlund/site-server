@@ -1,11 +1,11 @@
 meta {
-  name: Get users list
+  name: List tags
   type: http
-  seq: 5
+  seq: 3
 }
 
 get {
-  url: {{BASE_URL}}/api/v1/users
+  url: {{BASE_URL}}/api/v1/tags
   body: none
   auth: none
 }
@@ -13,16 +13,15 @@ get {
 assert {
   res.status: eq 200
   res('success'): eq true
-  res('message'): startsWith Found
+  res('message'): eq Found 50 tags
   res('query.filter'): isNull
-  res('query.sort'): eq alias
+  res('query.sort'): eq tag
   res('query.limit'): eq 50
   res('query.skip'): eq 0
 }
 
 script:post-response {
-  
-  
+  bru.setVar('tagId', res.getBody().data[0].id);
 }
 
 tests {

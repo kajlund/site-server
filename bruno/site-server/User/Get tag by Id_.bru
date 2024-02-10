@@ -1,27 +1,20 @@
 meta {
-  name: Update tag
+  name: Get tag by Id_
   type: http
-  seq: 5
+  seq: 4
 }
 
-patch {
+get {
   url: {{BASE_URL}}/api/v1/tags/{{tagId}}
-  body: json
+  body: none
   auth: none
-}
-
-body:json {
-  {
-    "tag": "testtagupdated"
-  }
 }
 
 assert {
   res.status: eq 200
-  res('success'): eq true
-  res('message'): eq Updated tag testtagupdated
+  res.body.message: startsWith Found tag 
   res('data.id'): eq {{tagId}}
-  res('data.tag'): eq testtagupdated
+  res('data.tag'): eq analytics
   res('data.createdAt'): isDefined
   res('data.updatedAt'): isDefined
 }

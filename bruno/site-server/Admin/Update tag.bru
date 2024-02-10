@@ -1,0 +1,27 @@
+meta {
+  name: Update tag
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{BASE_URL}}/api/v1/tags/{{tagId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "tag": "testtagupdated"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): eq Updated tag testtagupdated
+  res('data.id'): eq {{tagId}}
+  res('data.tag'): eq testtagupdated
+  res('data.createdAt'): isDefined
+  res('data.updatedAt'): isDefined
+}

@@ -1,0 +1,35 @@
+meta {
+  name: Login admin
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/users/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "admin@mail.com",
+    "password": "pass1234"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): eq Logged on user Admin
+  res('token'): isString
+  res('data.id'): isString
+  res('data.email'): eq admin@mail.com
+  res('data.alias'): eq Admin
+  res('data.role'): eq admin
+  res('data.createdAt'): isString
+  res('data.updatedAt'): isString
+}
+
+script:post-response {
+  bru.setVar('token',res.getBody().token)
+}

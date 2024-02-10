@@ -1,7 +1,7 @@
 meta {
   name: Show Profile
   type: http
-  seq: 3
+  seq: 11
 }
 
 get {
@@ -20,10 +20,10 @@ body:json {
 assert {
   res.status: eq 200
   res('success'): eq true
-  res('message'): startsWith Found profile for 
+  res('message'): startsWith Found profile for
   res('data.id'): isString
-  res('data.email'): eq testuser@mail.com
-  res('data.alias'): eq Test
+  res('data.email'): eq prospect@mail.com
+  res('data.alias'): eq Prospect
   res('data.role'): eq prospect
   res('data.createdAt'): isDefined
   res('data.updatedAt'): isDefined

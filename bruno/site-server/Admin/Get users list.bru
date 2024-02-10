@@ -1,0 +1,36 @@
+meta {
+  name: Get users list
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/users
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): startsWith Found
+  res('query.filter'): isNull
+  res('query.sort'): eq alias
+  res('query.limit'): eq 50
+  res('query.skip'): eq 0
+}
+
+script:post-response {
+  bru.setVar('userId', res.getBody().data[0].id);
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Data objects should have correct keys",() => {
+    expect(body.data[0]).to.be.an('object').that.has.all.keys('id', 'email', 'alias', 'role', 'createdAt', 'updatedAt');
+  });
+  
+  
+  
+}

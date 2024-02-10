@@ -1,7 +1,7 @@
 meta {
   name: Get user by id
   type: http
-  seq: 6
+  seq: 14
 }
 
 get {
@@ -13,11 +13,11 @@ get {
 assert {
   res.status: eq 200
   res('success'): eq true
-  res('message'): eq Found user Test
+  res('message'): eq Found user Admin
   res('data.id'): isString
-  res('data.email'): eq testuser@mail.com
-  res('data.alias'): eq Test
-  res('data.role'): eq prospect
+  res('data.email'): eq admin@mail.com
+  res('data.alias'): eq Admin
+  res('data.role'): eq admin
   res('..createdAt'): isDefined
   res('..updatedAt'): isDefined
 }
