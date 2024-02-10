@@ -10,15 +10,20 @@ export const admin = (req, res, next) => {
 
 export const auth = async (req, res, next) => {
   try {
-    const token = req.signedCookies.token
-    if (!token) {
+    // const token = req.signedCookies.token
+    // if (!token) {
+    //   return next(new UnauthorizedError())
+    // }
+    const authHeader = req.headers.authorization
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
       return next(new UnauthorizedError())
     }
+    const token = authHeader.split(' ')[1]
 
     const decoded = await authUtil.verifyToken(token)
     if (!decoded) return next(new UnauthorizedError())
     req.user = await svcUser.findById(decoded.id)
-    if (!req.user) return next(new UnauthorizedError())
+    if (!req.user || user.archivedAt) return next(new UnauthorizedError())
     next()
   } catch (err) {
     log.error(err)

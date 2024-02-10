@@ -1,5 +1,5 @@
 import { codes } from '../../statuscodes.js'
-import { clearAuthCookie, setAuthCookie } from '../../utils/auth.js'
+// import { clearAuthCookie, setAuthCookie } from '../../utils/auth.js'
 
 import svcUser from './user.service.js'
 
@@ -19,10 +19,11 @@ export const findUserByID = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { token, user } = await svcUser.loginUser(res.locals.data)
-    setAuthCookie(res, token)
+    // setAuthCookie(res, token)
     res.status(codes.OK).json({
       success: true,
       message: `Logged on user ${user.alias}`,
+      token,
       data: user,
     })
   } catch (err) {
@@ -34,8 +35,8 @@ export const logout = async (req, res, next) => {
   try {
     const user = req.user
     // Just trash the cookie for now,
-    // Implement proper blacklisting later
-    clearAuthCookie(res)
+    // Implement proper token blacklisting later
+    // clearAuthCookie(res)
     res.status(codes.OK).json({
       success: true,
       message: `Logged out user ${user.alias}`,
@@ -76,10 +77,11 @@ export const queryUsers = async (req, res, next) => {
 export const register = async (req, res, next) => {
   try {
     const { token, user } = await svcUser.registerUser(res.locals.data)
-    setAuthCookie(res, token)
+    // setAuthCookie(res, token)
     res.status(codes.OK).json({
       success: true,
       message: `Registered user ${user.alias}`,
+      token,
       data: user,
     })
   } catch (err) {
