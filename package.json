@@ -17,7 +17,8 @@
     "test:migrate": "cross-env NODE_ENV=test knex migrate:latest",
     "test:seed": "cross-env NODE_ENV=test knex seed:run",
     "test:server": "cross-env NODE_ENV=test node src/server.js",
-    "test": "run-p test:migrate test:seed test:server bruno"
+    "test:all": "run-s test:migrate test:seed test:server",
+    "test": "npm run bruno"
   },
   "keywords": [],
   "author": "",
