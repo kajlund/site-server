@@ -17,8 +17,8 @@ const findMany = async (table, query) => {
 }
 
 const findOne = async (table, qry) => {
-  const result = await db.knex(table).where(qry).first()
-  return result
+  const result = await db.knex(table).where(qry)
+  return result.length ? result[0] : null // Return found one or null
 }
 
 const createOne = async (table, data) => {
