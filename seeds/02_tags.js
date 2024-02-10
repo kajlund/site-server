@@ -7,8 +7,10 @@ import crypto from 'crypto'
 export async function seed(knex) {
   // Deletes ALL existing entries
   await knex('tags').del()
+  // scrambe order to test sort
+  await knex('tags').insert({ id: crypto.randomUUID(), tag: 'wiki' })
+
   await knex('tags').insert([
-    { id: crypto.randomUUID(), tag: 'wiki' }, // scrambe order to test sort
     { id: crypto.randomUUID(), tag: 'analytics' },
     { id: crypto.randomUUID(), tag: 'animation' },
     { id: crypto.randomUUID(), tag: 'api' },
