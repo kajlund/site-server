@@ -10,6 +10,7 @@ import db from './db.js'
 import { NotFoundError } from './errors.js'
 import log from './logger.js'
 import { codes, phrases } from './statuscodes.js'
+import proverbRoutes from './api/proverbs/proverb.router.js'
 import tagRoutes from './api/tags/tag.router.js'
 import userRoutes from './api/users/user.router.js'
 
@@ -36,6 +37,7 @@ app.get('/ping', (req, res) => {
 })
 
 // API Routes
+app.use('/api/v1/proverbs', proverbRoutes)
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/tags', tagRoutes)
 
