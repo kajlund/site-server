@@ -1,0 +1,23 @@
+meta {
+  name: List filtered proverbs
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/proverbs?filter=Ke
+  body: none
+  auth: none
+}
+
+query {
+  filter: Ke
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): startsWith Found 
+  res('query.filter.field'): eq author
+  res('query.filter.value'): eq Ke
+}

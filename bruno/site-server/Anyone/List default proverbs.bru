@@ -1,0 +1,40 @@
+meta {
+  name: List default proverbs
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/proverbs
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): startsWith Found
+  res('query.filter'): isNull
+  res('query.sort'): eq title
+  res('query.limit'): eq 50
+  res('query.skip'): eq 0
+}
+
+script:post-response {
+  bru.setVar('proverbId', res.getBody().data[0].id);
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Result shoud be an object with proper keys",() => {
+    expect(body).to.be.an('object').that.has.all.keys('success', 'message', 'query', 'data');
+  });
+  
+  test("Data objects should have correct keys",() => {
+    expect(body.data[0]).to.be.an('object').that.has.all.keys('id', 'title', 'content', 'description', 'author', 'category', 'createdAt', 'updatedAt');
+  });
+  
+  
+  
+}

@@ -1,11 +1,11 @@
 meta {
-  name: Delete tag
+  name: Delete proverb
   type: http
-  seq: 4
+  seq: 11
 }
 
 delete {
-  url: {{BASE_URL}}/api/v1/tags/{{tagId}}
+  url: {{BASE_URL}}/api/v1/proverbs/{{proverbId}}
   body: none
   auth: none
 }
@@ -19,5 +19,5 @@ body:json {
 assert {
   res.status: eq 200
   res('success'): eq true
-  res('message'): eq Deleted tag testtagupdated
+  res('message'): eq Deleted proverb Usability
 }

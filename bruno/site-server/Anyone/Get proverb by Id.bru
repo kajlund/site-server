@@ -1,0 +1,25 @@
+meta {
+  name: Get proverb by Id
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/proverbs/{{proverbId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.message: startsWith Found proverb
+  res('data.id'): eq {{proverbId}}
+  res('data.id'): isString testtag
+  res('data.title'): eq Community
+  res('data.content'): isString
+  res('data.description'): isString
+  res('data.author'): isString
+  res('data.category'): isString
+  res('data.createdAt'): isString
+  res('data.updatedAt'): isString
+}

@@ -1,7 +1,7 @@
 meta {
   name: Get tag by Id
   type: http
-  seq: 8
+  seq: 6
 }
 
 get {
@@ -14,7 +14,7 @@ assert {
   res.status: eq 200
   res.body.message: startsWith Found tag
   res('data.id'): eq {{tagId}}
-  res('data.tag'): eq testtag
-  res('data.createdAt'): isDefined
-  res('data.updatedAt'): isDefined
+  res('data.tag'): isString testtag
+  res('data.createdAt'): isString 
+  res('data.updatedAt'): isString 
 }

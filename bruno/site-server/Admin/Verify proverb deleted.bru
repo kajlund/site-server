@@ -1,11 +1,11 @@
 meta {
-  name: Verify tag deleted
+  name: Verify proverb deleted
   type: http
-  seq: 5
+  seq: 12
 }
 
 get {
-  url: {{BASE_URL}}/api/v1/tags/{{tagId}}
+  url: {{BASE_URL}}/api/v1/proverbs/{{proverbId}}
   body: none
   auth: none
 }
@@ -21,5 +21,5 @@ assert {
   res('success'): eq false
   res('statusCode'): eq 404
   res('message'): eq Not Found
-  res('detail'): eq Tag with id {{tagId}} was not found
+  res('detail'): eq Proverb with id {{proverbId}} was not found
 }

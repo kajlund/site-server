@@ -1,0 +1,23 @@
+meta {
+  name: List sorted proverbs
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{BASE_URL}}/api/v1/proverbs?sort=author
+  body: none
+  auth: none
+}
+
+query {
+  sort: author
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): startsWith Found
+  res('query.filter.field'): eq null
+  res('query.sort'): eq author
+}

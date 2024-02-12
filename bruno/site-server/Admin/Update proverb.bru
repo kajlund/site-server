@@ -1,0 +1,32 @@
+meta {
+  name: Update proverb
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{BASE_URL}}/api/v1/proverbs/{{proverbId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "author": "Jeff Atwood",
+    "category": "IT"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res('success'): eq true
+  res('message'): eq Updated proverb Usability
+  res('data.id'): eq {{proverbId}}
+  res('data.title'): eq Usability
+  res('data.content'): isString
+  res('data.description'): isEmpty
+  res('data.author'): eq Jeff Atwood
+  res('data.category'): eq IT
+  res('data.createdAt'): isDefined
+  res('data.updatedAt'): isDefined
+}

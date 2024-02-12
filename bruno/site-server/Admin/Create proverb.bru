@@ -1,0 +1,40 @@
+meta {
+  name: Create proverb
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{BASE_URL}}/api/v1/proverbs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Usability",
+    "content": "If you don't have people that care about usability on your project, your project is doomed.",
+    "author": "Jef Atweird",
+    "category": "it"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res('message'): eq Created proverb Usability
+  res('data.id'): isString
+  res('data.title'): eq Usability
+  res('data.createdAt'): isString
+  res('data.updatedAt'): isString
+  res('success'): eq true
+  res('data.content'): isString
+  res('data.description'): isDefined
+  res('data.author'): eq Jef Atweird
+  res('data.category'): eq it
+}
+
+script:post-response {
+  bru.setVar('proverbId', res.getBody().data.id);
+  
+  
+}

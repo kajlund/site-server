@@ -1,7 +1,7 @@
 meta {
   name: List default tags
   type: http
-  seq: 4
+  seq: 2
 }
 
 get {
@@ -21,8 +21,7 @@ assert {
 }
 
 script:post-response {
-  
-  
+  bru.setVar('tagId', res.getBody().data[0].id);
 }
 
 tests {
