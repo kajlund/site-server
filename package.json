@@ -15,6 +15,7 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "test:migrate": "cross-env NODE_ENV=test knex migrate:latest",
+    "test:rollback": "cross-env NODE_ENV=test knex migrate:rollback --all",
     "test:seed": "cross-env NODE_ENV=test knex seed:run",
     "test:server": "cross-env NODE_ENV=test node src/server.js",
     "test:all": "run-s test:migrate test:seed test:server",
